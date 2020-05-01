@@ -53,9 +53,18 @@ sd_pct <- sd(pcts)
 pct_skew <- skewness(pcts)
 pct_kurtosis <- kurtosis(pcts)
 
-point_estimate_mean <- mean_pct * total_students
-lower_interval_95 <- qnorm(.025, mean_pct, sd_pct) * total_students
-upper_interval_95 <- qnorm(.975, mean_pct, sd_pct) * total_students
+stderr_pct <- sd_pct / sqrt(length(s1_clean$time))
+z <- qnorm(.975)
+
+point_estimate_mean <- mean_pct
+lower_interval_95 <- (mean_pct - (z * stderr_pct))
+upper_interval_95 <- (mean_pct + (z * stderr_pct))
+
+hist(pcts, main="Bootstrapped Percentage of Students Who \nPlayed Video Games in the Previous Week", 
+                xlab="Percentage",
+                col="deepskyblue4",
+                freq=TRUE
+)
 
 ####################################################
 #               Scenario 2
